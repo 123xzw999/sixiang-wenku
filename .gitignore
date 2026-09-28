@@ -8,6 +8,9 @@ _vdom.html
 .gh_token.tmp
 *.log
 
+# 工作区元数据（不属于站点内容）
+.workbuddy-ai/
+
 # 系统
 Thumbs.db
 .DS_Store
