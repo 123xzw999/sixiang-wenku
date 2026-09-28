@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>思想文库 · 个人书籍创作收录</title>
+<meta name="description" content="个人思想书籍创作收录 —— 书籍 / 章节 / 页签三级创作，本地自动保存。">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- ============ 登录 ============ -->
+<section id="view-login" class="view is-active">
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="login-art">思想文库</div>
+      <div class="login-sub">个人书籍创作收录</div>
+      <form id="login-form" autocomplete="on">
+        <label class="field">
+          <span>账号</span>
+          <input id="login-user" type="text" autocomplete="username" placeholder="请输入账号">
+        </label>
+        <label class="field">
+          <span>密码</span>
+          <input id="login-pass" type="password" autocomplete="current-password" placeholder="请输入密码">
+        </label>
+        <button type="submit" class="btn btn-primary btn-block">进入文库</button>
+        <p id="login-err" class="login-err"></p>
+      </form>
+      <p class="login-hint">默认账号 <b>123456</b> &nbsp;·&nbsp; 密码 <b>xiaoxiong666</b></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 首页：个人思想书籍综述 ============ -->
+<section id="view-home" class="view">
+  <header class="topbar">
+    <div class="brand">思想文库</div>
+    <div class="topbar-actions">
+      <button class="btn btn-ghost" id="btn-export" type="button">导出备份</button>
+      <button class="btn btn-ghost" id="btn-import" type="button">导入备份</button>
+      <input type="file" id="file-import" accept="application/json,.json" hidden>
+      <button class="btn btn-ghost" id="btn-logout" type="button">退出</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1 class="art-title">思想文库</h1>
+      <p class="slogan">量变到质变的过程 需要的不是天赋 而是坚持和耐心</p>
+      <p class="slogan-dash">——坚持就是胜利</p>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>个人思想书籍综述</h2>
+        <span class="muted" id="review-status">自动保存</span>
+      </div>
+      <textarea id="review-text" class="review-input" rows="6"
+        placeholder="写下你的思想脉络、创作缘起与整体构想……&#10;这里是你全部书籍的总纲。"></textarea>
+      <div class="stats" id="home-stats"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>我的书籍</h2>
+        <button class="btn btn-primary" id="btn-add-book" type="button">＋ 添加书籍</button>
+      </div>
+      <div class="grid" id="books-grid"></div>
+    </section>
+  </main>
+</section>
+
+<!-- ============ 书籍创作页：章节 ============ -->
+<section id="view-book" class="view">
+  <header class="topbar">
+    <button class="btn btn-ghost" data-back="home" type="button">← 返回文库</button>
+    <div class="crumb" id="book-crumb"></div>
+  </header>
+
+  <main class="container">
+    <section class="panel book-head">
+      <label class="cover cover-lg" id="book-cover-slot">
+        <input type="file" accept="image/*" hidden>
+        <span class="cover-ph">封面</span>
+      </label>
+      <div class="book-meta">
+        <input id="book-title-input" class="title-input" type="text" placeholder="点击命名本书">
+        <div class="stats" id="book-stats"></div>
+        <div class="row">
+          <button class="btn btn-ghost" id="btn-book-cover" type="button">更换封面</button>
+          <button class="btn btn-ghost" id="btn-book-cover-clear" type="button">移除封面</button>
+          <button class="btn btn-danger-ghost" id="btn-del-book" type="button">删除本书</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>总纲 · 前言</h2>
+        <span class="muted">自动保存</span>
+      </div>
+      <textarea id="book-intro" class="review-input" rows="5"
+        placeholder="本书要写什么、为谁而写、分几部分……"></textarea>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>章节</h2>
+        <button class="btn btn-primary" id="btn-add-chapter" type="button">＋ 添加章节</button>
+      </div>
+      <div class="grid" id="chapters-grid"></div>
+    </section>
+  </main>
+</section>
+
+<!-- ============ 章节创作页：页签 + 正文 ============ -->
+<section id="view-chapter" class="view">
+  <header class="topbar">
+    <button class="btn btn-ghost" data-back="book" type="button">← 返回章节</button>
+    <div class="crumb" id="chapter-crumb"></div>
+    <div class="topbar-right">
+      <span class="muted" id="chapter-save-state">已保存</span>
+      <span class="muted" id="chapter-wordcount">0 字</span>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="panel book-head">
+      <label class="cover cover-md" id="chapter-cover-slot">
+        <input type="file" accept="image/*" hidden>
+        <span class="cover-ph">封面</span>
+      </label>
+      <div class="book-meta">
+        <input id="chapter-title-input" class="title-input" type="text" placeholder="点击命名本章">
+        <div class="row">
+          <button class="btn btn-ghost" id="btn-chapter-cover" type="button">更换封面</button>
+          <button class="btn btn-ghost" id="btn-chapter-cover-clear" type="button">移除封面</button>
+          <button class="btn btn-danger-ghost" id="btn-del-chapter" type="button">删除本章</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>页签</h2>
+        <button class="btn btn-primary" id="btn-add-tab" type="button">＋ 添加页签</button>
+      </div>
+      <div class="tabs" id="tabs-bar"></div>
+      <p class="muted small">双击页签可重命名。</p>
+    </section>
+
+    <section class="panel writing-panel">
+      <textarea id="tab-content" class="manuscript" spellcheck="false"
+        placeholder="在此落笔……&#10;（内容会自动保存到本机浏览器）"></textarea>
+      <div class="writing-tools">
+        <button class="btn btn-ghost" id="btn-indent" type="button">首行缩进</button>
+        <button class="btn btn-ghost" id="btn-tab-rename" type="button">重命名页签</button>
+        <button class="btn btn-danger-ghost" id="btn-tab-del" type="button">删除页签</button>
+      </div>
+    </section>
+  </main>
+</section>
+
+<div id="toast" class="toast"></div>
+
+<script src="assets/js/store.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

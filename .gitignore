@@ -1,0 +1,14 @@
+# 验证 / 临时文件
+_v/
+_vc/
+_lc/
+_verify*
+_live.html
+_vdom.html
+.gh_token.tmp
+*.log
+
+# 系统
+Thumbs.db
+.DS_Store
+desktop.ini
